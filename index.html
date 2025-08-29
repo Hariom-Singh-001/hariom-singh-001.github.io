@@ -152,9 +152,40 @@
 
   <button class="top" aria-label="Back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
 
+
   <script>
-    // Update year automatically
+    document.getElementById("contactForm").addEventListener("submit", async function (e) {
+      e.preventDefault(); // page reload na ho
+
+      const formData = {
+        name: e.target.name.value,
+        email: e.target.email.value,
+        message: e.target.message.value,
+      };
+
+      try {
+        let response = await fetch("http://localhost:5000/contact", {   // 👈 yahan apna backend ka URL daalo
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        let result = await response.json();
+        alert(result.message); // backend se jo message milega wo show hoga
+      } catch (err) {
+        alert("Error sending message: " + err.message);
+      }
+    });
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
+
+  <!-- <script> -->
+    // Update year automatically
+    //
+
+    //
+    // document.getElementById('year').textContent = new Date().getFullYear();
+  <!-- </script> -->
 </body>
 </html>
